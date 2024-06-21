@@ -1,21 +1,24 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native';
 
 const App = () => {
   const [count, setCount] = useState(0);
 
   const increment = () => {
+    Vibration.vibrate(50);
     setCount(count + 1);
   };
 
   const decrement = () => {
     if (count > 0) {
+      Vibration.vibrate(50);
       setCount(count - 1);
     }
   };
 
   const resetConfirmation = () => {
+    Vibration.vibrate(50);
     if (count > 0) {
       Alert.alert(
         'Reset Counter',
