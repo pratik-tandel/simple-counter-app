@@ -1,117 +1,97 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+/* eslint-disable prettier/prettier */
+import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = () => {
+  const [count, setCount] = useState(0);
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  const increment = () => {
+    setCount(count + 1);
+  };
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const decrement = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const resetConfirmation = () => {
+    if (count > 0) {
+      Alert.alert(
+        'Reset Counter',
+        'Are you sure you want to reset the counter to 0?',
+        [
+          { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'Reset', onPress: () => setCount(0) },
+        ],
+        { cancelable: false },
+      );
+    }
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Text style={styles.counterText}>{count}</Text>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={increment}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonStyle} onPress={decrement}>
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity style={styles.resetButton} onPress={resetConfirmation}>
+        <Text style={styles.resetButtonText}>Reset</Text>
+      </TouchableOpacity>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  counterText: {
+    fontSize: 100,
+    color: 'white',
+    marginBottom: 20,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginBottom: 60,
   },
-  highlight: {
-    fontWeight: '700',
+  buttonStyle: {
+    borderRadius: 50,
+    paddingHorizontal: 50,
+    paddingVertical: 15,
+    borderWidth: 1,
+    borderColor: '#fff',
+    backgroundColor: 'crimson',
+    color: 'white',
+  },
+  buttonText: {
+    fontSize: 60,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  resetButton: {
+    backgroundColor: '#ccc',
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    borderRadius: 5,
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: '#aaa',
+  },
+  resetButtonText: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });
 
